@@ -9,9 +9,9 @@ const ProjectPeopleTable = (props) => {
             return <TableRow
                 key={ person.id } >
                     <TableRowColumn>{ person.name }</TableRowColumn>
-                    <TableRowColumn>{ person.times.thisWeek.total / 60 }</TableRowColumn>
                     <TableRowColumn>{ person.times.lastWeek.total / 60 }</TableRowColumn>
-                    <TableRowColumn>{ person.times.total / 60 }</TableRowColumn>
+                    <TableRowColumn>{ person.times.thisWeek.total / 60 }</TableRowColumn>
+                    <TableRowColumn>{ (person.times.total / 60).toFixed(2) }</TableRowColumn>
                 </TableRow>
         })
     }

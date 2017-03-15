@@ -61,33 +61,26 @@ export function getNearestPastDay(day){
 }
 
 // Takes time entries from Teamwork and organizes them into an array of objects that each represent a day of the week
-// with each object containing time information and the actual entries made on that day
+// with each object containing time information and the actual entries made on that dayfunction organizeTimesIntoWeekDays(times, weekOffset){
 export function organizeTimesIntoWeekDays(times, weekOffset){
     const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday',];
     const sunday = getDayByWeek('sunday', weekOffset);
 
     return days.map((day, index) => {
-      let iterative_day = getNearestPastDay('sunday');
-      let iterative_day_plus_one = getNearestPastDay('sunday');
-      
-      iterative_day = new Date(iterative_day.setDate(sunday.getDate() + index));
-      iterative_day_plus_one = new Date(iterative_day_plus_one.setDate(sunday.getDate() + (index + 1)));
-
-      iterative_day = Math.floor(new Date(iterative_day.setHours(9, 0, 0)).getTime() / 1000);
-      iterative_day_plus_one = Math.floor(new Date(iterative_day_plus_one.setHours(9, 0, 0)).getTime() / 1000);
+      let iterative_day = moment(sunday).add(index, 'days').hours(9).startOf('hour').unix();
+      let iterative_day_plus_one = moment(sunday).add(index + 1, 'days').hours(9).startOf('hour').unix();
       
       const entries = times.filter(time => {
-              const date = Math.floor(new Date(time.date).getTime() / 1000);
+              const date = moment(time.date).unix();
               return date > iterative_day && date < iterative_day_plus_one;
           });
 
       const total = entries.reduce((sum, time) => {
-              return sum + ((parseInt(time.hours, 10) * 60) + parseInt(time.minutes, 10));
+              return sum + getEntryMinutes(time);
           }, 0);
       
       return { day, date: iterative_day, index, total, entries }
     })
-
 }
 
 // Formats a date object specifically for Teamwork's query parameters
@@ -142,8 +135,6 @@ function searchArrayForObject(array, object){
 }
 
 export function getEntryMinutes(entry){
-    const answer = (parseInt(entry.hours, 10) * 60) + parseInt(entry.minutes, 10);
-    console.log(entry);
-    return answer;
+    return (parseInt(entry.hours, 10) * 60) + parseInt(entry.minutes, 10);
 }
 

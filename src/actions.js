@@ -151,15 +151,17 @@ export function fetchProjectTimesAndEstimates(projectId){
                         const thisWeek = organizeTimesIntoWeekDays(filteredEntries, 0);
                         const lastWeek = organizeTimesIntoWeekDays(filteredEntries, -1);
 
+                        console.log(lastWeek);
+
                         const thisWeekTotal = thisWeek.reduce((sum, day) => {
                             const dayTotal = day.entries.reduce((sum, entry) => sum + getEntryMinutes(entry), 0);
                             return sum + dayTotal;
                         }, 0);
-                        
+
                         const lastWeekTotal = lastWeek.reduce((sum, day) => {
-                            const dayTotal = day.entries.reduce((sum, entry) => sum + getEntryMinutes(entry), 0);
-                            return sum + dayTotal;
+                            return sum + day.total;
                         }, 0);
+
                         const personTimes = { 
                             entries: filteredEntries,
                             thisWeek: { thisWeek, total: thisWeekTotal },
