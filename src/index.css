@@ -1,0 +1,45 @@
+/* Colors
+ * Primary - #13C15B
+ * Secondary - #3DF4BD
+ * Warning - #F45800
+ */
+
+html {
+  background-color: #efefef;
+}
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+p, h1, h2, h3, h4, h5, h6, span, a, div {
+    color: #666;
+    font-family: 'Work Sans', Helvetica, sans-serif;
+    font-weight: 100;  
+}
+table td, table th {
+    vertical-align: inherit;
+}
+
+.wrap {
+  margin-top: 120px;
+}
+.hidden {
+  display: none;
+}
+
+.card-title {
+  font-size: 16px;
+  margin-bottom: 10px; 
+}
+.rc-pagination {
+  margin-bottom: 30px;
+}
+.rc-pagination-item-active {
+    background-color: #13C15B;
+    border-color: #13C15B;
+}
+.rc-pagination-item:hover {
+    color: #13C15B;
+    border-color: #13C15B; 
+}
