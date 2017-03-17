@@ -2,7 +2,8 @@ import React from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
 const ProjectPeopleTable = (props) => {
-    const { people } = props;
+    const { project } = props;
+    const { people } = project.times;
 
     const renderPersonRow = (people) => {
         return people.map((person, index) => {
@@ -28,6 +29,12 @@ const ProjectPeopleTable = (props) => {
             </TableHeader>
             <TableBody displayRowCheckbox={ false }>
                 { people && renderPersonRow(people) }
+                <TableRow>
+                    <TableRowColumn>Totals</TableRowColumn>
+                    <TableRowColumn>{ project.times.lastWeekTotal / 60 }</TableRowColumn>
+                    <TableRowColumn>{ project.times.thisWeekTotal / 60 }</TableRowColumn>
+                    <TableRowColumn>{ (project.times.minutesLogged / 60).toFixed(2) }</TableRowColumn>
+                </TableRow>
             </TableBody>
         </Table>
 

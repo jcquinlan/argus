@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { LOGIN, LOGOUT, SET_USER, SET_PEOPLE, ADD_PROJECT, ADD_PROJECTS, ADD_PROJECT_PEOPLE, ADD_PROJECT_TIMES, FAVORITE_PROJECT, LOCAL_STORAGE_PROJECTS } from './constants';
+import { LOGIN, LOGOUT, SET_USER, SET_PEOPLE, ADD_PROJECT, ADD_PROJECTS, ADD_PROJECT_PEOPLE, ADD_PROJECT_TIMES, FAVORITE_PROJECT, LOCAL_STORAGE_PROJECTS, ADD_PROJECT_TASKS } from './constants';
 import { formatDate, organizeTimesIntoWeekDays, getNearestFutureDay, gleenPeopleFromTimeEntries, getDayByWeek, getEntryMinutes } from './utility';
 
 // ASYNCRONOUS ACTIONS
@@ -134,11 +134,12 @@ function fetchPastWeekTimes(){
     })
   }
 
-export function fetchProjectTimesAndEstimates(projectId){
+export function fetchProjectTimesEstimatesTasks(projectId){
     return function(dispatch){
-        return axios.all([fetchProjectTimes(projectId), fetchProjectEstimates(projectId)])
-                .then(axios.spread((entries, estimates) => {
+        return axios.all([fetchProjectTimes(projectId), fetchProjectEstimates(projectId), fetchProjectTasks(projectId)])
+                .then(axios.spread((entries, estimates, tasksList) => {
                     estimates = estimates.data.projects[0];
+                    tasksList = tasksList.data.tasklists;
                     const minutesEstimated = parseInt(estimates['time-estimates']['total-mins-estimated'], 10);
                     const minutesLogged = parseInt(estimates['time-totals']['total-mins-sum'], 10);
                     const peopleList = gleenPeopleFromTimeEntries(entries);
@@ -150,8 +151,6 @@ export function fetchProjectTimesAndEstimates(projectId){
 
                         const thisWeek = organizeTimesIntoWeekDays(filteredEntries, 0);
                         const lastWeek = organizeTimesIntoWeekDays(filteredEntries, -1);
-
-                        console.log(lastWeek);
 
                         const thisWeekTotal = thisWeek.reduce((sum, day) => {
                             const dayTotal = day.entries.reduce((sum, entry) => sum + getEntryMinutes(entry), 0);
@@ -172,8 +171,22 @@ export function fetchProjectTimesAndEstimates(projectId){
                         return Object.assign({}, person, { times: personTimes })
                     });
 
-                    const times = { entries, minutesEstimated, minutesLogged, people };
-                    dispatch(addProjectTimes(projectId, times))
+                    const thisWeekTotal = people.reduce((sum, person) => {
+                        return sum + person.times.thisWeek.total;
+                    }, 0)
+
+                    const lastWeekTotal = people.reduce((sum, person) => {
+                        return sum + person.times.lastWeek.total;
+                    }, 0)
+
+                    const completedTasks = tasksList.filter(task => task.complete);
+                    const uncompletedTasks = tasksList.filter(task => !task.complete);
+
+                    const times = { entries, minutesEstimated, minutesLogged, thisWeekTotal, lastWeekTotal, people };
+                    const tasks = { all: tasksList, completed: completedTasks, uncompleted: uncompletedTasks };
+
+                    dispatch(addProjectTimes(projectId, times));
+                    dispatch(addProjectTasks(projectId, tasks));
                 }));
     }
 }
@@ -204,6 +217,10 @@ export function fetchProjectTimes(projectId){
 
 export function fetchProjectEstimates(projectId){
     return axios.get(`projects/${ projectId }/time/total.json`)
+}
+
+export function fetchProjectTasks(projectId){
+    return axios.get(`/projects/${ projectId }/tasklists.json`);
 }
 
 // SYNCONRONOUS ACTIONS
@@ -254,6 +271,14 @@ export function addProjectTimes(projectId, times){
         type: ADD_PROJECT_TIMES,
         projectId,
         times,
+    }
+}
+
+export function addProjectTasks(projectId, tasks){
+    return {
+        type: ADD_PROJECT_TASKS,
+        projectId,
+        tasks,
     }
 }
 

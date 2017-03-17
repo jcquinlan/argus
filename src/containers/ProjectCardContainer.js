@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { fetchProjectTimesAndEstimates } from '../actions';
+import { fetchProjectTimesEstimatesTasks } from '../actions';
 import ProjectCard from '../components/ProjectCard';
 
 const mapStateToProps = (state, ownProps) => {
@@ -10,7 +10,7 @@ const mapStateToProps = (state, ownProps) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-      fetchProjectTimesAndEstimates: (projectId) => dispatch(fetchProjectTimesAndEstimates(projectId)),
+      fetchProjectTimesEstimatesTasks: (projectId) => dispatch(fetchProjectTimesEstimatesTasks(projectId)),
   }
 }
 

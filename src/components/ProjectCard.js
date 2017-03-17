@@ -17,13 +17,14 @@ class ProjectCard extends Component {
     }
 
     componentDidMount(){
-        const { project, fetchProjectTimesAndEstimates } = this.props;
+        const { project, fetchProjectTimesEstimatesTasks } = this.props;
         if(project.favorited) this.setState({ expanded: true });
-        if(project.favorited && !project.times.length) fetchProjectTimesAndEstimates(project.id);
+        if(project.favorited && !project.times.length) fetchProjectTimesEstimatesTasks(project.id);
     }
 
     render(){
         const { project } = this.props;
+        if(project.name === 're.Act App for iOS and Android') console.log(project);
         const { expanded } = this.state;
         const styles = {
             marginBottom: '30px',
@@ -48,6 +49,7 @@ class ProjectCard extends Component {
                 <CardText expandable={ true }>
                     <div className="row">
                         <div className="col-xs-12">
+                            { project.tasks && (<p>{ project.tasks.completed.length } / { project.tasks.all.length } tasks completed</p>) }
                             { this.displayTimeTable() }
                         </div>
                     </div>
@@ -66,7 +68,7 @@ class ProjectCard extends Component {
     displayTimeTable(){
         const { project } = this.props;
 
-        if(project.times.entries.length) return <ProjectPeopleTable people={ project.times.people }/>;
+        if(project.times.entries.length) return <ProjectPeopleTable project={ project }/>;
         return 'Loading!'
     }
 

@@ -1,4 +1,4 @@
-import { ADD_PROJECT, ADD_PROJECTS, ADD_PROJECT_PEOPLE, ADD_PROJECT_TIMES, FAVORITE_PROJECT } from '../constants'
+import { ADD_PROJECT, ADD_PROJECTS, ADD_PROJECT_PEOPLE, ADD_PROJECT_TIMES, ADD_PROJECT_TASKS, FAVORITE_PROJECT } from '../constants'
 
 // IMPORTANT NOTE //
 // State in this reducer will be a single project, not the entire projects object in Redux!
@@ -7,6 +7,10 @@ function project(state = {}, action){
     case ADD_PROJECT_TIMES:
       const { times } = action;
       return Object.assign({}, state, { times })
+
+    case ADD_PROJECT_TASKS:
+      const { tasks } = action;
+      return Object.assign({}, state, { tasks })
 
     case ADD_PROJECT_PEOPLE:
       const { people } = action;
@@ -43,6 +47,19 @@ export default function projects(state = {}, action) {
 
     case ADD_PROJECT_TIMES:
       if(action.times) {
+        if(!action.projectId){
+          console.error('Action needs to contain a "companyId" attribute. State not updated.')
+          return state;
+        }
+        // Get Project ID from the action.
+        const { projectId } = action;
+
+        return Object.assign({}, state, { [projectId]: project(state[projectId], action) });
+      }
+      return state;
+
+    case ADD_PROJECT_TASKS:
+      if(action.tasks) {
         if(!action.projectId){
           console.error('Action needs to contain a "companyId" attribute. State not updated.')
           return state;

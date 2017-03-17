@@ -5,8 +5,6 @@ const PersonTimeTable = (props) => {
     const { person } = props;
     const times = person.times;
 
-    if(person['first-name'] === 'James') console.log(person);
-
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S',];
     const column_colors = {
         today: 'rgba(86, 193, 91, .2)',
