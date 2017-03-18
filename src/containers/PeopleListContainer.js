@@ -5,7 +5,7 @@ import PeopleList from '../components/PeopleList';
 const mapStateToProps = (state, ownProps) => {
     return {
         user: state.authentication.user,
-        people: state.people,
+        people: Object.values(state.people),
     }
 }
 

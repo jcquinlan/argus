@@ -1,6 +1,18 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
-import { LOGIN, LOGOUT, SET_USER, SET_PEOPLE, ADD_PROJECT, ADD_PROJECTS, ADD_PROJECT_PEOPLE, ADD_PROJECT_TIMES, FAVORITE_PROJECT, LOCAL_STORAGE_PROJECTS, ADD_PROJECT_TASKS } from './constants';
+import { LOGIN, LOGOUT,
+    SET_USER,
+    SET_PEOPLE,
+    SET_PEOPLE_PROJECTS,
+    ADD_PROJECT,
+    ADD_PROJECTS,
+    ADD_PROJECT_PEOPLE,
+    ADD_PROJECT_TIMES,
+    FAVORITE_PROJECT,
+    LOCAL_STORAGE_PROJECTS,
+    ADD_PROJECT_TASKS,
+} from './constants';
+
 import { formatDate, organizeTimesIntoWeekDays, getNearestFutureDay, gleenPeopleFromTimeEntries, getDayByWeek, getEntryMinutes } from './utility';
 
 // ASYNCRONOUS ACTIONS
@@ -45,7 +57,7 @@ export function fetchProjects(){
         //
         // TODO: Listen for the failed Authentication header, then emit LOGOUT action and reroute to login view.
         //
-        return axios.get('projects.json')
+        return axios.get('projects.json?includePeople=true')
             .then(response => {
                 // Map over each project, and see if any of them are persisted as being "favorited" via localStorage.
                 // If they are, set the favorited attribute to true.
@@ -85,14 +97,35 @@ export function fetchPeopleAndPastWeekTimes(companyId){
                             // Organize all time entries by day of the week
                             const by_day = organizeTimesIntoWeekDays(all);
 
-                            const times = { total, all, by_day }
+                            const times = { total, all, by_day };
+                            const projects = gleenProjectsFromTimeEntries(all).map(project => {
+                                const projectTimes = all.filter(entry => entry['project-id'] === project.projectId);
+                                const week = organizeTimesIntoWeekDays(projectTimes);
+                                return Object.assign(project, { week });
+                            });
+
+
                             // Return a new copy of the person object with their time entries attached
-                            return Object.assign({}, person, { times })
+                            return Object.assign({}, person, { times, projects })
                         });
 
                     dispatch(setPeople(people));
                 }));
     }
+}
+
+function gleenProjectsFromTimeEntries(entries){
+    const projectIds = [];
+    const projects = [];
+    
+    entries.map(entry => {
+        if(!projectIds.includes(entry['project-id'])){
+            projectIds.push(entry['project-id']);
+            projects.push({ projectId: entry['project-id'], projectName: entry['project-name'], projectStatus: entry['project-status'] });
+        }
+    });
+    return projects;
+
 }
 
 function fetchPeople(companyId){

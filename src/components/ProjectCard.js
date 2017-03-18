@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Card, CardText, CardHeader } from 'material-ui/Card';
+import FontIcon from 'material-ui/FontIcon';
 import LinearProgress from 'material-ui/LinearProgress';
 
 import FavoriteProjectIconContainer from '../containers/FavoriteProjectIconContainer';
@@ -24,7 +25,6 @@ class ProjectCard extends Component {
 
     render(){
         const { project } = this.props;
-        if(project.name === 're.Act App for iOS and Android') console.log(project);
         const { expanded } = this.state;
         const styles = {
             marginBottom: '30px',
@@ -49,7 +49,7 @@ class ProjectCard extends Component {
                 <CardText expandable={ true }>
                     <div className="row">
                         <div className="col-xs-12">
-                            { project.tasks && (<p>{ project.tasks.completed.length } / { project.tasks.all.length } tasks completed</p>) }
+                            { this.displayProjectTasks() }
                             { this.displayTimeTable() }
                         </div>
                     </div>
@@ -72,11 +72,26 @@ class ProjectCard extends Component {
         return 'Loading!'
     }
 
+    displayProjectTasks(){
+        const { project } = this.props;
+        if(project && project.tasks){
+            return (
+                <p className="project-tasks">
+                    { project.tasks.completed.length } / { project.tasks.all.length } tasks completed
+                    <FontIcon className="material-icons project-tasks-icon">
+                        { project.tasks.completed.length ? 'check' : 'cancel' }
+                    </FontIcon>
+                </p>
+            )
+        }
+
+    }
+
     handleExpandChange(){
-        const { project, fetchProjectTimesAndEstimates } = this.props;
+        const { project, fetchProjectTimesEstimatesTasks } = this.props;
         const { expanded } = this.state;
 
-        if(!expanded && !project.times.entries.length) fetchProjectTimesAndEstimates(project.id);
+        if(!expanded && !project.times.entries.length) fetchProjectTimesEstimatesTasks(project.id);
         this.setState({ expanded: !expanded })
     }
       

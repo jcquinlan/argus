@@ -3,6 +3,7 @@ export const LOGOUT = 'LOGOUT';
 export const SET_USER = 'SET_USER';
 
 export const SET_PEOPLE = 'SET_PEOPLE';
+export const SET_PERSON_PROJECTS = 'SET_PERSON_PROJECTS';
 
 export const ADD_PROJECT = 'ADD_PROJECT';
 export const ADD_PROJECTS = 'ADD_PROJECTS';

@@ -30,7 +30,7 @@ const PersonTimeTable = (props) => {
         })
     }
 
-    const renderDayRow = () => {
+    const renderDayColumns = () => {
         const today = new Date().getDay();
 
         return times.by_day.map((day, index) => {
@@ -47,22 +47,55 @@ const PersonTimeTable = (props) => {
         })
     }
 
-    return (
-        <Table>
-            <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
-                <TableRow>
-                    { renderDayHeaders() }
-                    <TableHeaderColumn style={{ textAlign: 'center' }}>Total</TableHeaderColumn>
-                </TableRow>
-            </TableHeader>
-            <TableBody displayRowCheckbox={ false }>
-                <TableRow>
-                    { renderDayRow() }
-                    <TableHeaderColumn style={{ textAlign: 'center' }}>{ times.total / 60 }</TableHeaderColumn>
-                </TableRow>
-            </TableBody>
-        </Table>
+    const renderAllProjectsRow = () => {
+        return (
+            <TableRow>
+                <TableHeaderColumn style={{ textAlign: 'center' }}>All Projects</TableHeaderColumn>
+                { renderDayColumns() }
+                <TableHeaderColumn style={{ textAlign: 'center' }}>{ times.total / 60 }</TableHeaderColumn>
+            </TableRow>
+        )
+    }
 
+    const renderProjectRows = () => {
+        return person.projects.map(project => {
+            return (
+                <TableRow>
+                    <TableHeaderColumn style={{ textAlign: 'center', whiteSpace: 'initial', padding: '5px' }}>{ project.projectName }</TableHeaderColumn>
+                    { renderProjectRowColumns(project) }
+                    <TableHeaderColumn style={{ textAlign: 'center' }}>{ 'total' }</TableHeaderColumn>
+                </TableRow>
+            )
+        });
+    }
+
+    const renderProjectRowColumns = (project) => {
+        return project.week.map((day, index) => {
+                const today = new Date().getDay();
+                return (
+                    <TableRowColumn key={ day.day }>
+                        { index > today ? '-' : day.total / 60}
+                    </TableRowColumn>
+                )
+            });
+    }
+
+    return (
+        <div className="person-time-table">
+            <Table>
+                <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
+                    <TableRow>
+                        <TableHeaderColumn style={{ textAlign: 'center' }}></TableHeaderColumn>
+                        { renderDayHeaders() }
+                        <TableHeaderColumn style={{ textAlign: 'center' }}>Total</TableHeaderColumn>
+                    </TableRow>
+                </TableHeader>
+                <TableBody displayRowCheckbox={ false }>
+                    { renderAllProjectsRow() }
+                    { renderProjectRows() }
+                </TableBody>
+            </Table>
+        </div>
     );
 }
 

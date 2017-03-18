@@ -43,3 +43,18 @@ table td, table th {
     color: #13C15B;
     border-color: #13C15B; 
 }
+
+.project-tasks {
+  margin: 0 20px 20px 20px;
+  font-size: 20px;
+  text-align: center;
+}
+.project-tasks-icon {
+  margin-left: 10px;
+  top: 5px;
+  color: #ddd !important;
+}
+
+.person-time-table td {
+  text-align: center !important;
+}
