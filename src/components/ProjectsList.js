@@ -39,21 +39,31 @@ class ProjectList extends Component {
         return array.slice(start, end);
     }
 
-    render(){
+    renderProjectsList(){
         const { projects } = this.props;
-        const { filterValue, currentPage, pageSize } = this.state;
-        // This contains the projects array after the seach term is applied.
-        const filtered_projects = filterValue ? projects.filter(project => project.name.includes(filterValue)) : projects;
-        // This takes the array with search terms applies and paginates the results.
-        const paginated_projects = this.sliceArrayByPage(filtered_projects, currentPage, pageSize)
+        if(projects.length){
+            const { filterValue, currentPage, pageSize } = this.state;
+            // This contains the projects array after the seach term is applied.
+            const filtered_projects = filterValue ? projects.filter(project => project.name.includes(filterValue)) : projects;
+            // This takes the array with search terms applies and paginates the results.
+            const paginated_projects = this.sliceArrayByPage(filtered_projects, currentPage, pageSize);
 
+            return (
+                <div>
+                    <p className="card-title">Filter Projects</p>
+                    <Pagination onChange={ this.handlePageChange } current={ currentPage } pageSize={ pageSize } total={ filtered_projects.length } />
+                    <ProjectToolbar handleValueChange={ this.handleFilterValueChange } numberOfProjects={ projects.length } />
+                    <FilteredProjectsList projects={ paginated_projects } />
+                    <Pagination onChange={ this.handlePageChange } current={ currentPage } pageSize={ pageSize } total={ filtered_projects.length } />
+                </div>
+            )
+        }
+    }
+
+    render(){
         return (
             <div>
-                <p className="card-title">Filter Projects</p>
-                <Pagination onChange={ this.handlePageChange } current={ currentPage } pageSize={ pageSize } total={ filtered_projects.length } />
-                <ProjectToolbar handleValueChange={ this.handleFilterValueChange } numberOfProjects={ projects.length } />
-                <FilteredProjectsList projects={ paginated_projects } />
-                <Pagination onChange={ this.handlePageChange } current={ currentPage } pageSize={ pageSize } total={ filtered_projects.length } />
+                { this.renderProjectsList() }
             </div>
         );
     }

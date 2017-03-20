@@ -138,3 +138,7 @@ export function getEntryMinutes(entry){
     return (parseInt(entry.hours, 10) * 60) + parseInt(entry.minutes, 10);
 }
 
+export function getProjectURL(projectId){
+    return `https://bricksimple.teamwork.com/#/projects/${ projectId }/overview/summary`;
+}
+

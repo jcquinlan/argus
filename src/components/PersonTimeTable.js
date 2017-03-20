@@ -2,7 +2,7 @@ import React from 'react';
 import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
 
 const PersonTimeTable = (props) => {
-    const { person } = props;
+    const { person, showProjects } = props;
     const times = person.times;
 
     const days = ['S', 'M', 'T', 'W', 'T', 'F', 'S',];
@@ -58,31 +58,32 @@ const PersonTimeTable = (props) => {
     }
 
     const renderProjectRows = () => {
-        return person.projects.map(project => {
+        return person.projects.map((project, index) => {
+            const today = new Date().getDay();
+            // Add custom alternating row colors
+            const backgroundColor = index % 2 ? '#fff' : '#f9f9f9';
+
             return (
-                <TableRow>
-                    <TableHeaderColumn style={{ textAlign: 'center', whiteSpace: 'initial', padding: '5px' }}>{ project.projectName }</TableHeaderColumn>
-                    { renderProjectRowColumns(project) }
-                    <TableHeaderColumn style={{ textAlign: 'center' }}>{ 'total' }</TableHeaderColumn>
+                <TableRow key={ project.projectId } style={{ backgroundColor, border: 'none' }}>
+                    <TableRowColumn style={{ textAlign: 'center', whiteSpace: 'initial', padding: '5px' }}>{ project.projectName }</TableRowColumn>
+
+                    <TableRowColumn style={{ textAlign: 'center' }}>{ 0 > today ? '-' : (project.week[0].total / 60) }</TableRowColumn>
+                    <TableRowColumn style={{ textAlign: 'center' }}>{ 1 > today ? '-' : (project.week[1].total / 60) }</TableRowColumn>
+                    <TableRowColumn style={{ textAlign: 'center' }}>{ 2 > today ? '-' : (project.week[2].total / 60) }</TableRowColumn>
+                    <TableRowColumn style={{ textAlign: 'center' }}>{ 3 > today ? '-' : (project.week[3].total / 60) }</TableRowColumn>
+                    <TableRowColumn style={{ textAlign: 'center' }}>{ 4 > today ? '-' : (project.week[4].total / 60) }</TableRowColumn>
+                    <TableRowColumn style={{ textAlign: 'center' }}>{ 5 > today ? '-' : (project.week[5].total / 60) }</TableRowColumn>
+                    <TableRowColumn style={{ textAlign: 'center' }}>{ 6 > today ? '-' : (project.week[6].total / 60) }</TableRowColumn>
+
+                    <TableRowColumn style={{ textAlign: 'center' }}>{ (project.total / 60).toFixed(2) }</TableRowColumn>
                 </TableRow>
             )
         });
     }
 
-    const renderProjectRowColumns = (project) => {
-        return project.week.map((day, index) => {
-                const today = new Date().getDay();
-                return (
-                    <TableRowColumn key={ day.day }>
-                        { index > today ? '-' : day.total / 60}
-                    </TableRowColumn>
-                )
-            });
-    }
-
     return (
         <div className="person-time-table">
-            <Table>
+            <Table selectable={ false }>
                 <TableHeader displaySelectAll={ false } adjustForCheckbox={ false }>
                     <TableRow>
                         <TableHeaderColumn style={{ textAlign: 'center' }}></TableHeaderColumn>
@@ -92,7 +93,7 @@ const PersonTimeTable = (props) => {
                 </TableHeader>
                 <TableBody displayRowCheckbox={ false }>
                     { renderAllProjectsRow() }
-                    { renderProjectRows() }
+                    { showProjects && renderProjectRows() }
                 </TableBody>
             </Table>
         </div>

@@ -54,7 +54,25 @@ table td, table th {
   top: 5px;
   color: #ddd !important;
 }
-
+.teamwork-project-link {
+  color: #13C15B;
+}
 .person-time-table td {
   text-align: center !important;
+}
+
+.loading-wrapper {
+  text-align: center;
+}
+.loading-wrapper p {
+  font-size: 24px;
+}
+.sk-spinner {
+  margin: 0 auto;
+  margin-bottom: 30px;
+  width: 50px;
+  height: 50px;
+}
+.sk-cube {
+  background-color: #13C15B;
 }

@@ -101,7 +101,8 @@ export function fetchPeopleAndPastWeekTimes(companyId){
                             const projects = gleenProjectsFromTimeEntries(all).map(project => {
                                 const projectTimes = all.filter(entry => entry['project-id'] === project.projectId);
                                 const week = organizeTimesIntoWeekDays(projectTimes);
-                                return Object.assign(project, { week });
+                                const projectTotal = week.reduce((sum, day) => sum + day.total, 0);
+                                return Object.assign(project, { week, total: projectTotal });
                             });
 
 
@@ -125,7 +126,6 @@ function gleenProjectsFromTimeEntries(entries){
         }
     });
     return projects;
-
 }
 
 function fetchPeople(companyId){

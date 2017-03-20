@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { getProjectURL } from '../utility';
 import { Card, CardText, CardHeader } from 'material-ui/Card';
 import FontIcon from 'material-ui/FontIcon';
 import LinearProgress from 'material-ui/LinearProgress';
@@ -43,7 +44,7 @@ class ProjectCard extends Component {
                     avatar={ <FavoriteProjectIconContainer project={ project } />}
                     title={ project.name }
                     titleStyle={{ fontSize: '24px' }}
-                    subtitle={ 'Created: ' + created_on.toLocaleTimeString("en-us", options) }
+                    subtitle={ (<span>{ `Created: ${ created_on.toLocaleTimeString('en-us', options) } -` } <a className="teamwork-project-link" href={ getProjectURL(project.id) } target="_blank">View on TeamWork</a></span>) }
                     showExpandableButton={ true } />
 
                 <CardText expandable={ true }>

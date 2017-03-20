@@ -5,7 +5,7 @@ const CustomAppBar = (props) => {
     const { user, isLoggedIn, toggleSlideout } = props;
     return (
         <AppBar
-            title={ "argus" + (user ? ' - ' + user['company-name'] : '') }
+            title={ "SeamWork" + (user ? ' - ' + user['company-name'] : '') }
             style={{ position: 'fixed', top: '0', backgroundColor: '#13C15B' }}
             zDepth={ 2 }
             titleStyle={{ fontWeight: '100', textAlign: 'center' }}
