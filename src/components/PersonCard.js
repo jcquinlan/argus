@@ -24,6 +24,7 @@ class PersonCard extends Component {
                 <CardHeader
                     title={ person['first-name'] + ' ' + person['last-name'] }
                     titleStyle={{ fontSize: '24px' }}
+                    avatar={ person['avatar-url'] }
                     showExpandableButton={ true }
                 />
                 <CardText>

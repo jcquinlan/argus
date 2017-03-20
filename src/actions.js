@@ -82,6 +82,7 @@ export function fetchPeopleAndPastWeekTimes(companyId){
     return function(dispatch){
         return axios.all([fetchPastWeekTimes(), fetchPeople(companyId)])
                 .then(axios.spread((all_times, people) => {
+                    console.log(people);
                     // Update the Redux state using prop methods passed from container component
                     people = people.data.people.filter(person => !person.administrator);
 
@@ -129,7 +130,7 @@ function gleenProjectsFromTimeEntries(entries){
 }
 
 function fetchPeople(companyId){
-    return axios.get(`companies/${ companyId }/people.json`)
+    return axios.get(`companies/${ companyId }/people.json?fullprofile=true&returnProjectIds=true`)
 }
 
 // Fetches all the time entries for the past week.
