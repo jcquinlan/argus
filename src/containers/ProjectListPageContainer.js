@@ -1,4 +1,5 @@
 import { connect } from 'react-redux';
+import { fetchProjects } from '../actions';
 import ProjectListPage from '../pages/ProjectListPage';
 
 const mapStateToProps = (state, ownProps) => {
@@ -8,7 +9,9 @@ const mapStateToProps = (state, ownProps) => {
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+    return {
+        fetchProjects: () => dispatch(fetchProjects()),
+    }
 }
 
 const ProjectListPageContainer = connect(

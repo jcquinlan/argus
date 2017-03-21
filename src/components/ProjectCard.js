@@ -20,8 +20,11 @@ class ProjectCard extends Component {
 
     componentDidMount(){
         const { project, fetchProjectTimesEstimatesTasks } = this.props;
+
         if(project.favorited) this.setState({ expanded: true });
-        if(project.favorited && !project.times.length) fetchProjectTimesEstimatesTasks(project.id);
+        if(project.favorited && !project.times.entries.length){
+            fetchProjectTimesEstimatesTasks(project.id);
+        }
     }
 
     render(){

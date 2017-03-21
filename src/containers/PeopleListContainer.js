@@ -1,18 +1,14 @@
 import { connect } from 'react-redux';
-import { fetchPeopleAndPastWeekTimes } from '../actions';
 import PeopleList from '../components/PeopleList';
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        user: state.authentication.user,
         people: Object.values(state.people),
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-      fetchPeopleAndPastWeekTimes: (companyId) => dispatch(fetchPeopleAndPastWeekTimes(companyId)),
-  }
+  return {}
 }
 
 const PeopleListContainer = connect(

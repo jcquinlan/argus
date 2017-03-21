@@ -63,7 +63,7 @@ export function fetchProjects(){
                 // Map over each project, and see if any of them are persisted as being "favorited" via localStorage.
                 // If they are, set the favorited attribute to true.
                 const projects = response.data.projects.map(project => {
-                    const times = [];
+                    const times = { entries: [], };
                     const id = project.id.toString();
                     const favorited = favorited_projects.includes(id);
                     return Object.assign({}, project, { favorited, times })

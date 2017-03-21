@@ -21,11 +21,6 @@ class PeopleList extends Component {
         return false;
     }
 
-    componentDidMount(){
-        const { fetchPeopleAndPastWeekTimes, people, user } = this.props;
-        // Only make the network request if there are no people being passed in from the Redux store.
-        if(people.length === 0 && user) fetchPeopleAndPastWeekTimes(user['company-id']);
-    }
 
     handleFilterValueChange(event){
         const filterValue = event.target.value.toLowerCase();

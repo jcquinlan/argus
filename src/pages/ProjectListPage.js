@@ -1,30 +1,37 @@
 import React from 'react';
-import Spinner from 'react-spinkit';
+import LoadingComponent from '../components/LoadingComponent';
 import ProjectsListContainer from '../containers/ProjectsListContainer';
 import FavoritedProjectsListContainer from '../containers/FavoritedProjectsListContainer';
 
 const ProjectListPage = (props) => {
-    // Load a random message with the spinner icon as projects are being pulled from API.
-    const loadingMessages = ['Finding your team...', 'Crunching the numbers...', 'Reviewing the code...', 'Counting closed tickets...', 'Waiting for TeamWork...'];
-    const message = loadingMessages[Math.floor(Math.random() * loadingMessages.length)];
+
+    // If we haven't fetched projects yet, do it now.
+    if(!props.projects.length) props.fetchProjects();
 
     const showLoading = () => {
         if(!props.projects.length) return (
             <div className="columns">
-                <div className="column loading-wrapper">
-                    <Spinner spinnerName='cube-grid' width={ 80 }/>
-                    <p>{ message }</p>
-                </div>
+                <div className="column"><LoadingComponent /></div>
             </div>   
         )
     }
 
-    const showFavoritedProjectsList =() => {
+    const showFavoritedProjectsList = () => {
         if(!props.projects.length) return;
         return (
             <div>
                 <p className="card-title">Favorited Projects</p>
                 <FavoritedProjectsListContainer />
+            </div>
+        )
+    }
+
+    const showProjectsList = () => {
+        if(!props.projects.length) return;
+        return (
+            <div>
+                <p className="card-title">Filter Projects</p>
+                <ProjectsListContainer />
             </div>
         )
     }
@@ -36,7 +43,9 @@ const ProjectListPage = (props) => {
                 <div className="column is-4">
                     { showFavoritedProjectsList() }
                 </div>
-                <div className="column is-8"><ProjectsListContainer /></div>
+                <div className="column is-8">
+                    { showProjectsList() }
+                </div>
             </div>
         </div>
     );

@@ -17,12 +17,6 @@ class ProjectList extends Component {
         this.handlePageChange = this.handlePageChange.bind(this);
     }
 
-    componentDidMount(){
-        const { fetchProjects, projects } = this.props;
-        // Only make the network request if there are no projects being passed in from the Redux store.
-        if(projects.length === 0) fetchProjects();
-    }
-
     handleFilterValueChange(event){
         const filterValue = event.target.value.toLowerCase();
         this.setState({ filterValue });
@@ -50,7 +44,6 @@ class ProjectList extends Component {
 
             return (
                 <div>
-                    <p className="card-title">Filter Projects</p>
                     <Pagination onChange={ this.handlePageChange } current={ currentPage } pageSize={ pageSize } total={ filtered_projects.length } />
                     <ProjectToolbar handleValueChange={ this.handleFilterValueChange } numberOfProjects={ projects.length } />
                     <FilteredProjectsList projects={ paginated_projects } />
