@@ -14,6 +14,7 @@ import thunkMiddleware from 'redux-thunk';
 import rootReducer from './reducers';
 
 import ProjectListPageContainer from './containers/ProjectListPageContainer';
+import PeopleListPageContainer from './containers/PeopleListPageContainer';
 import PeopleListPage from './pages/PeopleListPage';
 import LoginPage from './pages/LoginPage';
 
@@ -66,7 +67,7 @@ ReactDOM.render(
             <Router history={ browserHistory }>
               <Route path="/" component={ App } onEnter={ onAppInit }>
                   <IndexRoute component={ ProjectListPageContainer } onEnter={ hasKeyGuard }/>
-                  <Route component={ PeopleListPage } path="people"/>
+                  <Route component={ PeopleListPageContainer } path="people"/>
                   <Route component={ LoginPage } path="login"/>
               </Route>
             </Router>

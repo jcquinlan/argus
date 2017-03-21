@@ -10,7 +10,14 @@ import MenuItem from 'material-ui/MenuItem';
 import LogoutButtonContainer from './containers/LogoutButtonContainer';
 import CustomAppBarContainer from './containers/CustomAppBarContainer';
 
+import BackgroundImage from './components/BackgroundImage';
+
 import axios from 'axios';
+
+const backgroundImages = [
+  'https://images.unsplash.com/photo-1484504110495-939e9baca603?dpr=2&auto=format&fit=crop&w=1500&h=998&q=80&cs=tinysrgb&crop=',
+  'https://images.unsplash.com/photo-1464168241319-ac6e1b696ce1?dpr=2&auto=format&fit=crop&w=1500&h=1125&q=80&cs=tinysrgb&crop=',
+]
 
 // Required for touch support on mobile devices by Material-UI
 injectTapEventPlugin();
@@ -32,7 +39,8 @@ class App extends Component {
     return (
         <MuiThemeProvider>
           <div>
-            <CustomAppBarContainer toggleSlideout={ this.toggleSlideout }/>
+            <BackgroundImage height={ 400 } opacity={ .1 } url={ backgroundImages[Math.floor(Math.random() * backgroundImages.length)] }/>
+            <CustomAppBarContainer name={ 'kiln' } toggleSlideout={ this.toggleSlideout }/>
 
                 <Drawer
                   docked={ false }

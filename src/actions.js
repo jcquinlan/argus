@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { browserHistory } from 'react-router';
+import moment from 'moment';
 import { LOGIN, LOGOUT,
     SET_USER,
     SET_PEOPLE,
@@ -82,13 +83,14 @@ export function fetchPeopleAndPastWeekTimes(companyId){
     return function(dispatch){
         return axios.all([fetchPastWeekTimes(), fetchPeople(companyId)])
                 .then(axios.spread((all_times, people) => {
-                    console.log(people);
                     // Update the Redux state using prop methods passed from container component
                     people = people.data.people.filter(person => !person.administrator);
+                    const day = moment().day();
 
                     // Map each persons times to the corresponding person object
                     people = people
                         .map(person => {
+                            let missingDays = false;
                             // Get all time entries for this person
                             const all = all_times.filter(time => time['person-id'] === person.id);
                             const total = all.reduce((sum, entry) => {
@@ -97,6 +99,15 @@ export function fetchPeopleAndPastWeekTimes(companyId){
 
                             // Organize all time entries by day of the week
                             const by_day = organizeTimesIntoWeekDays(all);
+
+                            // Cycle through each day, and if any past days are empty, flag the person as missing times.
+                            // Ignore Sundays and Saturdays
+                            for(let i = 0; i <= day; i++){
+                                if(i !== 0 && i !== 6 && !by_day[i].total){
+                                    missingDays = true;
+                                    break;
+                                }
+                            }
 
                             const times = { total, all, by_day };
                             const projects = gleenProjectsFromTimeEntries(all).map(project => {
@@ -108,7 +119,7 @@ export function fetchPeopleAndPastWeekTimes(companyId){
 
 
                             // Return a new copy of the person object with their time entries attached
-                            return Object.assign({}, person, { times, projects })
+                            return Object.assign({}, person, { times, projects, missingDays })
                         });
 
                     dispatch(setPeople(people));

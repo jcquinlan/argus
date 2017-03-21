@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
+import { getPersonURL } from '../utility';
 import { Card, CardText, CardHeader } from 'material-ui/Card';
+import Avatar from 'material-ui/Avatar';
 import PersonTimeTable from './PersonTimeTable';
 
 class PersonCard extends Component {
@@ -24,7 +26,8 @@ class PersonCard extends Component {
                 <CardHeader
                     title={ person['first-name'] + ' ' + person['last-name'] }
                     titleStyle={{ fontSize: '24px' }}
-                    avatar={ person['avatar-url'] }
+                    subtitle={ (<span><a className="teamwork-project-link" href={ getPersonURL(person.id) } target="_blank">View Profile on TeamWork</a></span>) }
+                    avatar={ <Avatar src={ person['avatar-url'] } size={ 30 } /> }
                     showExpandableButton={ true }
                 />
                 <CardText>

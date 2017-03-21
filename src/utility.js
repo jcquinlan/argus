@@ -142,3 +142,7 @@ export function getProjectURL(projectId){
     return `https://bricksimple.teamwork.com/#/projects/${ projectId }/overview/summary`;
 }
 
+export function getPersonURL(personId){
+    return `https://bricksimple.teamwork.com/#/people/${ personId }`;
+}
+
