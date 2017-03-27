@@ -8,8 +8,7 @@ const CompanyInput = (props) => {
                 onChange={ props.onChange }
                 underlineShow={ false }
                 defaultValue={ company }
-                hintText="Your Company"
-                hintStyle={{ marginBottom: '9px' }}
+                hintText="Your Company Name"
                 style={{ padding: '10px 20px', width: '100%' }}/>
         );
     }

@@ -6,14 +6,18 @@ const PeopleMissingDaysList = (props) => {
       const { peopleMissingDays } = props;
 
       const renderPeople = () => {
-          return peopleMissingDays.map(person => {
-              return <ListItem key={ person.id } primaryText={ `${ person['first-name'] } ${ person['last-name'] }` } />
-          })
+          if(!peopleMissingDays.length){
+              return <ListItem disabled={ true } style={{ textAlign: 'center' }} primaryText={ "No one is missing times! :')" } />
+          } else {
+              return peopleMissingDays.map(person => {
+                  return <ListItem disabled={ true } key={ person.id } primaryText={ `${ person['first-name'] } ${ person['last-name'] }` } />
+              })
+          }
       }
 
       return (
           <Card>
-            <List>
+            <List style={{ padding: '0' }}>
                 { renderPeople() }
             </List>
           </Card>

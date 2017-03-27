@@ -12,6 +12,7 @@ class Login extends Component {
         this.state = {
             company: '',
             key: '',
+            loading: false,
         }
 
         this.handleKeyChange = this.handleKeyChange.bind(this);
@@ -26,6 +27,8 @@ class Login extends Component {
     }
 
     render() {
+        const { loading } = this.state;
+
         return (
             <div>
                 <Paper zDepth={ 1 }>
@@ -33,11 +36,8 @@ class Login extends Component {
                     <Divider />
                     <CompanyInput onChange={ this.handleCompanyChange }/>
                 </Paper>
-                <RaisedButton label="Save" 
-                    onClick={ this.handleCompanyKeySubmit }
-                    backgroundColor='#13C15B'
-                    labelColor='#fff'
-                    style={ this.styles() }/>
+
+                <a className={ `button login-button ${ loading ? 'is-loading' : '' }` } onClick={ this.handleCompanyKeySubmit }>Login</a>
             </div>
         );
     }
@@ -64,6 +64,7 @@ class Login extends Component {
 
         if(key && company){
             login(key, company);
+            this.setState({ loading: true });
         }
      
     }

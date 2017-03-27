@@ -5,14 +5,18 @@ import { Card } from 'material-ui/Card';
 const FavoritedProjectsList = (props) => {
       const { favoritedProjects } = props;
       const renderProjects = () => {
-          return favoritedProjects.map(project => {
-              return (<ListItem key={ project.id } primaryText={ project.name } />)
-          })
+          if(!favoritedProjects.length) {
+              return <ListItem disabled={ true } style={{ textAlign: 'center', cursor: 'default' }} primaryText={ 'No favorited projects yet...' } />
+          } else {
+              return favoritedProjects.map(project => {
+                  return (<ListItem key={ project.id } hoverColor="transparent" primaryText={ project.name } />)
+              })
+          }
       }
 
       return (
           <Card>
-            <List>
+            <List style={{ padding: '0' }}>
                 { renderProjects() }
             </List>
           </Card>

@@ -9,7 +9,6 @@ const ChooseKey = (props) => {
             underlineShow={ false }
             defaultValue={ key }
             hintText="Your API Key"
-            hintStyle={{ marginBottom: '9px' }}
             style={{ padding: '10px 20px', width: '100%' }}/>
     );
 }

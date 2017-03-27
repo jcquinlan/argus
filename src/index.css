@@ -20,16 +20,70 @@ p, h1, h2, h3, h4, h5, h6, span, a, div {
 table td, table th {
     vertical-align: inherit;
 }
-
 .background-image-component {
     -webkit-mask-image:-webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,1)), to(rgba(0,0,0,0)))
 }
-
 .wrap {
   padding-top: 120px;
 }
 .hidden {
   display: none;
+}
+.subtitle {
+  margin-bottom: 15px;
+  font-weight: 400;
+  font-size: 24px;
+  display: inline-block;
+  border-bottom: 5px solid #13C15B;
+  padding-bottom: 5px;
+}
+.sub-text {
+  font-size: 16px;
+  margin-bottom: 10px;
+}
+.heavy {
+  font-weight: 700;
+}
+/* ----------------------------- Nav ------------------------------------ */
+.app-nav {
+  position: fixed;
+  width: 100%;
+  background-color: #13C15B;
+  color: #fff;
+}
+.app-nav a, .app-nav p, .app-nav li {
+  color: #fff;
+  font-weight: 400;
+  transition: 0.3s;
+}
+.app-nav a:hover {
+  color: #fff;
+  text-decoration: underline;
+}
+.app-nav .app-name {
+  font-size: 24px;
+  font-weight: 800;
+  color: #fff;
+}
+.company-name {
+  font-size: 16px;
+}
+
+/* ---------------------------- Login --------------------------------- */
+.login-button {
+  background-color: #13C15B;
+  color: #fff;
+  margin-top: 20px;
+  font-size: 18px;
+  border: none;
+  border-radius: 0;
+}
+.login-button:hover {
+  color: #fff;
+  border: none;
+}
+.login.is-loading {
+  color: #fff;
 }
 
 .card-title {
@@ -65,6 +119,7 @@ table td, table th {
   text-align: center !important;
 }
 
+/* ------------------------------------ Loading ---------------------------- */
 .loading-wrapper {
   text-align: center;
 }
@@ -79,4 +134,13 @@ table td, table th {
 }
 .sk-cube {
   background-color: #13C15B;
+}
+
+
+/* --------------------------- Media Queries ----------------------------- */
+@media(max-width: 999px){
+  .container {
+    margin-left: 15px;
+    margin-right: 15px;
+  }
 }

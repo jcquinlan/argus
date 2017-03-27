@@ -13,7 +13,8 @@ const ProjectToolbar = (props) => {
                 <DebouncedInput 
                     style={{ padding: '10px', width: '400px', border: 'none', outline: 'none' }}
                     handleValueChange={ props.handleValueChange }
-                    debounceTimeLength={ 200 }/>
+                    debounceTimeLength={ 200 }
+                    placeholder="Search Projects"/>
             </ToolbarGroup>
             <ToolbarGroup>
                 <Chip backgroundColor={ '#13C15B' } labelColor={ '#fff' }>{ props.numberOfProjects } total</Chip>
