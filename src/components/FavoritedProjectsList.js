@@ -4,9 +4,12 @@ import { Card } from 'material-ui/Card';
 
 const FavoritedProjectsList = (props) => {
       const { favoritedProjects } = props;
+
       const renderProjects = () => {
           if(!favoritedProjects.length) {
-              return <ListItem disabled={ true } style={{ textAlign: 'center', cursor: 'default' }} primaryText={ 'No favorited projects yet...' } />
+              // nestedItems prop on ListItem expects array, so manually put this ListItem into an array
+              // to prevent from returning a node.
+              return [<ListItem key="not-a-real-key" disabled={ true } style={{ textAlign: 'center', cursor: 'default' }} primaryText={ 'No favorited projects yet...' } />]
           } else {
               return favoritedProjects.map(project => {
                   return (<ListItem key={ project.id } hoverColor="transparent" primaryText={ project.name } />)
@@ -17,7 +20,7 @@ const FavoritedProjectsList = (props) => {
       return (
           <Card>
             <List style={{ padding: '0' }}>
-                { renderProjects() }
+                <ListItem primaryText="Favorited Projects" nestedItems={ renderProjects() } />
             </List>
           </Card>
     );

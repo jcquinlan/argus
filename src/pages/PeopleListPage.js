@@ -21,7 +21,6 @@ const PeopleListPage = (props) => {
         if(!people.length) return;
         return (
             <div>
-                <p className="card-title">People Missing Times</p>
                 <PeopleMissingDaysListContainer />
             </div>
         )
@@ -31,8 +30,18 @@ const PeopleListPage = (props) => {
         if(!people.length) return;
         return (
             <div>
-                <p className="card-title">Employees</p>
                 <PeopleListContainer />
+            </div>
+        )
+    }
+
+    const showPageTitle = () => {
+        if(!people.length) return;
+        return (
+            <div className="columns">
+                <div className="column">
+                    <h4 className="page-title">People</h4>
+                </div>
             </div>
         )
     }
@@ -40,6 +49,9 @@ const PeopleListPage = (props) => {
     return (
         <div>
             { showLoading() }
+
+            { showPageTitle() }
+
             <div className="columns">
                 <div className="column is-4">
                     { showPeopleMissingDaysList() }

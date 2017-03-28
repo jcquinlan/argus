@@ -5,8 +5,10 @@ import FavoritedProjectsListContainer from '../containers/FavoritedProjectsListC
 
 const ProjectListPage = (props) => {
 
+    const { projects } = props;
+
     // If we haven't fetched projects yet, do it now.
-    if(!props.projects.length) props.fetchProjects();
+    if(!projects.length) props.fetchProjects();
 
     const showLoading = () => {
         if(!props.projects.length) return (
@@ -17,21 +19,26 @@ const ProjectListPage = (props) => {
     }
 
     const showFavoritedProjectsList = () => {
-        if(!props.projects.length) return;
+        if(!projects.length) return;
         return (
-            <div>
-                <p className="card-title">Favorited Projects</p>
-                <FavoritedProjectsListContainer />
-            </div>
+            <FavoritedProjectsListContainer />
         )
     }
 
     const showProjectsList = () => {
-        if(!props.projects.length) return;
+        if(!projects.length) return;
         return (
-            <div>
-                <p className="card-title">Filter Projects</p>
-                <ProjectsListContainer />
+            <ProjectsListContainer />
+        )
+    }
+
+    const showPageTitle = () => {
+        if(!projects.length) return;
+        return (
+            <div className="columns">
+                <div className="column">
+                    <h4 className="page-title">Projects</h4>
+                </div>
             </div>
         )
     }
@@ -39,6 +46,9 @@ const ProjectListPage = (props) => {
     return (
         <div>
             { showLoading() }
+
+            { showPageTitle() }
+
             <div className="columns">
                 <div className="column is-4">
                     { showFavoritedProjectsList() }
